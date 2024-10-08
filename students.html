@@ -25,11 +25,13 @@
         <button type="submit">Add Student</button>
     </form>
     <ul>
-       
+        {% for student in students %}
             <li>
-                
                 <div>
-                    <form style="display:inline;" method="POST" action="{{ url_for('delete_student', student_id=loop.index0) }}" onsubmit="return confirmDelete()">
+                    {{ student.name }} (Age: {{ student.age }}, Grade: {{ student.grade }})
+                </div>
+                <div>
+                    <form style="display:inline;" method="POST" action="delete_route_here" onsubmit="return confirmDelete()">
                         <button type="submit">Delete</button>
                     </form>
                     <a href="{{ url_for('update_student', student_id=loop.index0) }}">
@@ -37,9 +39,9 @@
                     </a>
                 </div>
             </li>
-       
+        {% endfor %}
     </ul>
-    <a class="nav-link" href="index.html">Home</a>
-    <a class="nav-link" href="about.html">About</a>
+    <a class="nav-link" href="/">Home</a>
+    <a class="nav-link" href="/about">About</a>
 </body>
 </html>
