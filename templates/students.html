@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Student Records</title>
+ 
+    <script>
+        function confirmDelete() {
+            return confirm("Are you sure you want to delete this student?");
+        }
+
+        function showSuccessMessage() {
+            alert("Student added successfully!");
+        }
+    </script>
+</head>
+<body>
+    <h1>Student Records</h1>
+    <form method="POST" onsubmit="showSuccessMessage()">
+        <input type="text" name="name" placeholder="Student Name" required pattern="[A-Za-z ]+">
+        <input type="number" name="age" placeholder="Age" required min="1" max="100">
+        <input type="text" name="grade" placeholder="Grade" required>
+        <button type="submit">Add Student</button>
+    </form>
+    <ul>
+        {% for student in students %}
+            <li>
+                <div>
+                    {{ student.name }} (Age: {{ student.age }}, Grade: {{ student.grade }})
+                </div>
+                <div>
+                    <form style="display:inline;" method="POST" action="{{ url_for('delete_student', student_id=loop.index0) }}" onsubmit="return confirmDelete()">
+                        <button type="submit">Delete</button>
+                    </form>
+                    <a href="{{ url_for('update_student', student_id=loop.index0) }}">
+                        <button>Edit</button>
+                    </a>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+    <a class="nav-link" href="/">Home</a>
+    <a class="nav-link" href="/about">About</a>
+</body>
+</html>
